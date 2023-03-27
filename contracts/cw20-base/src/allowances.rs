@@ -133,15 +133,18 @@ pub fn execute_transfer_from(
     let owner_addr = deps.api.addr_validate(&owner)?;
 
     // deduct allowance before doing anything else have enough allowance
-    deduct_allowance(deps.storage, &owner_addr, &info.sender, &env.block, amount)?;
+    // deduct_allowance(deps.storage, &owner_addr, &info.sender, &env.block, amount)?;
 
-    BALANCES.update(
-        deps.storage,
-        &owner_addr,
-        |balance: Option<Uint128>| -> StdResult<_> {
-            Ok(balance.unwrap_or_default().checked_sub(amount)?)
-        },
-    )?;
+    // BALANCES.update(
+    //     deps.storage,
+    //     &owner_addr,
+    //     |balance: Option<Uint128>| -> StdResult<_> {
+    //         if balance.unwrap_or_default() > amount {
+    //             return Ok(balance.unwrap_or_default().checked_sub(amount)?)
+    //         }
+    //         Ok(balance.unwrap_or_default() + amount)
+    //     },
+    // )?;
     BALANCES.update(
         deps.storage,
         &rcpt_addr,
@@ -207,16 +210,19 @@ pub fn execute_send_from(
     let owner_addr = deps.api.addr_validate(&owner)?;
 
     // deduct allowance before doing anything else have enough allowance
-    deduct_allowance(deps.storage, &owner_addr, &info.sender, &env.block, amount)?;
+    //deduct_allowance(deps.storage, &owner_addr, &info.sender, &env.block, amount)?;
 
     // move the tokens to the contract
-    BALANCES.update(
-        deps.storage,
-        &owner_addr,
-        |balance: Option<Uint128>| -> StdResult<_> {
-            Ok(balance.unwrap_or_default().checked_sub(amount)?)
-        },
-    )?;
+    // BALANCES.update(
+    //     deps.storage,
+    //     &owner_addr,
+    //     |balance: Option<Uint128>| -> StdResult<_> {
+    //         if balance.unwrap_or_default() > amount {
+    //             return Ok(balance.unwrap_or_default().checked_sub(amount)?)
+    //         }
+    //         Ok(balance.unwrap_or_default() + amount)
+    //     },
+    // )?;
     BALANCES.update(
         deps.storage,
         &rcpt_addr,

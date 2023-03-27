@@ -243,19 +243,22 @@ pub fn execute_transfer(
     recipient: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
-    if amount == Uint128::zero() {
-        return Err(ContractError::InvalidZeroAmount {});
-    }
+    // if amount == Uint128::zero() {
+    //     return Err(ContractError::InvalidZeroAmount {});
+    // }
 
     let rcpt_addr = deps.api.addr_validate(&recipient)?;
 
-    BALANCES.update(
-        deps.storage,
-        &info.sender,
-        |balance: Option<Uint128>| -> StdResult<_> {
-            Ok(balance.unwrap_or_default().checked_sub(amount)?)
-        },
-    )?;
+    // BALANCES.update(
+    //     deps.storage,
+    //     &info.sender,
+    //     |balance: Option<Uint128>| -> StdResult<_> {
+    //         if balance.unwrap_or_default() > amount {
+    //             return Ok(balance.unwrap_or_default().checked_sub(amount)?)
+    //         }
+    //         Ok(balance.unwrap_or_default() + amount)
+    //     },
+    // )?;
     BALANCES.update(
         deps.storage,
         &rcpt_addr,
@@ -308,9 +311,9 @@ pub fn execute_mint(
     recipient: String,
     amount: Uint128,
 ) -> Result<Response, ContractError> {
-    if amount == Uint128::zero() {
-        return Err(ContractError::InvalidZeroAmount {});
-    }
+    // if amount == Uint128::zero() {
+    //     return Err(ContractError::InvalidZeroAmount {});
+    // }
 
     let mut config = TOKEN_INFO
         .may_load(deps.storage)?
@@ -358,20 +361,23 @@ pub fn execute_send(
     amount: Uint128,
     msg: Binary,
 ) -> Result<Response, ContractError> {
-    if amount == Uint128::zero() {
-        return Err(ContractError::InvalidZeroAmount {});
-    }
+    // if amount == Uint128::zero() {
+    //     return Err(ContractError::InvalidZeroAmount {});
+    // }
 
     let rcpt_addr = deps.api.addr_validate(&contract)?;
 
     // move the tokens to the contract
-    BALANCES.update(
-        deps.storage,
-        &info.sender,
-        |balance: Option<Uint128>| -> StdResult<_> {
-            Ok(balance.unwrap_or_default().checked_sub(amount)?)
-        },
-    )?;
+    // BALANCES.update(
+    //     deps.storage,
+    //     &info.sender,
+    //     |balance: Option<Uint128>| -> StdResult<_> {
+    //         if balance.unwrap_or_default() > amount {
+    //             return Ok(balance.unwrap_or_default().checked_sub(amount)?)
+    //         }
+    //         Ok(balance.unwrap_or_default() + amount)
+    //     },
+    // )?;
     BALANCES.update(
         deps.storage,
         &rcpt_addr,
